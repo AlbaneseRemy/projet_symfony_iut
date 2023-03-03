@@ -1,0 +1,23 @@
+{
+ "version": "0.2.0",
+ "configurations": [
+
+ {
+ "name": "Run & Debug",
+ "type": "php",
+ "request": "launch",
+ "runtimeArgs": [
+ "-S",
+ "localhost:8000",
+ "-dxdebug.start_with_request=yes",
+ "-t",
+ "."
+ ],
+ "cwd": "${workspaceRoot}/public",
+ "port": 9003,
+ "serverReadyAction": {
+ "action": "openExternally"
+ }
+ }
+ ]
+} 
