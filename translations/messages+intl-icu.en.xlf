@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="cmXwiux" resname="project.index.message_index">
+        <source>project.index.message_index</source>
+        <target>Nothing to sell here, it's just to learn</target>
+      </trans-unit>
+      <trans-unit id="Xa3QPtG" resname="project.index.title">
+        <source>project.index.title</source>
+        <target>Homepage of the symfony project</target>
+      </trans-unit>
+      <trans-unit id="egtL8s4" resname="project.index.welcome_index">
+        <source>project.index.welcome_index</source>
+        <target>Welcome</target>
+      </trans-unit>
+      <trans-unit id="SNzMqYR" resname="template.navbar.home">
+        <source>template.navbar.home</source>
+        <target> My shop </target>
+      </trans-unit>
+      <trans-unit id="olEcQ.E" resname="template.navbar.shop">
+        <source>template.navbar.shop</source>
+        <target> Shop </target>
+      </trans-unit>
+      <trans-unit id="09aq8jJ" resname="template.navbar.contact">
+        <source>template.navbar.contact</source>
+        <target> Contact </target>
+      </trans-unit>
+      <trans-unit id="nHqzB88" resname="templates.navbar.chercher">
+        <source>templates.navbar.chercher</source>
+        <target>Search in the shop</target>
+      </trans-unit>
+      <trans-unit id="KLGOkI_" resname="boutique.recherche.recherche">
+        <source>boutique.recherche.recherche</source>
+        <target>Results of the research: </target>
+      </trans-unit>
+      <trans-unit id="DfjXy81" resname="template.navbar.panier">
+        <source>template.navbar.panier</source>
+        <target>My cart</target>
+      </trans-unit>
+      <trans-unit id="X5EA0hL" resname="project.panier.title">
+        <source>project.panier.title</source>
+        <target>__project.panier.title</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

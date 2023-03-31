@@ -11,9 +11,11 @@ use App\Service\BoutiqueService;
 class BoutiqueController extends AbstractController
 {
     #[Route(
-        path:'/boutique', 
+        path: '/{_locale}/boutique',
         name: 'app_boutique',
-        )]
+        requirements: ['_locale' => '%app.supported_locales%'],
+        defaults: ['_locale' => 'fr']
+    )]
     public function index(BoutiqueService $boutique): Response
     {
         $categories = $boutique->findAllCategories();
@@ -23,9 +25,11 @@ class BoutiqueController extends AbstractController
     }
 
     #[Route(
-        path: '/rayon/{idCategorie}', 
+        path: '/{_locale}/rayon/{idCategorie}',
         name: 'app_boutique_rayon',
-        )]
+        requirements: ['_locale' => '%app.supported_locales%'],
+        defaults: ['_locale' => 'fr']
+    )]
     public function rayon(BoutiqueService $boutiqueService, int $idCategorie): Response
     {
         $categorie = $boutiqueService->findCategorieById($idCategorie);
@@ -35,4 +39,18 @@ class BoutiqueController extends AbstractController
             'produits' => $produits,
         ]);
     }
+
+    #[Route(path:'/{_locale}/boutique/chercher/{recherche}',
+    name: 'app_boutique_recherche', 
+    requirements:['_locale'=> '%app.supported_locales%', 'recherche' => ".+"], 
+    defaults: ['_locale' => 'fr', 'recherche' => ""]
+    )]
+    public function recherche(BoutiqueService $boutique, string $recherche): Response
+    {
+    $produits = $boutique->findProduitsByLibelleOrTexte($recherche);
+    return $this->render('boutique/chercher.html.twig', [
+        'produits' => $produits,
+        'recherche' => $recherche,
+    ]);
+}
 }
