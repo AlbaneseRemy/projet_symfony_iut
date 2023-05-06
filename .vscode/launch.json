@@ -1,23 +1,26 @@
 {
- "version": "0.2.0",
- "configurations": [
-
- {
- "name": "Run & Debug",
- "type": "php",
- "request": "launch",
- "runtimeArgs": [
- "-S",
- "localhost:8000",
- "-dxdebug.start_with_request=yes",
- "-t",
- "."
- ],
- "cwd": "${workspaceRoot}/public",
- "port": 9003,
- "serverReadyAction": {
- "action": "openExternally"
- }
- }
- ]
-} 
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run & Debug2",
+            "type": "php",
+            "request": "launch",
+            "runtimeArgs": [
+                "-dxdebug.start_with_request=yes",
+                "-dxdebug.client_host=localhost",
+                "-dxdebug.client_port=9003",
+                "-dxdebug.mode=debug",
+                "-S",
+                "localhost:8000",
+                "-t",
+                "."
+            ],
+            "program": "",
+            "cwd": "${workspaceRoot}/public",
+            "port": 9003,
+            "serverReadyAction": {
+                "action": "openExternally"
+            }
+        }
+    ]
+}

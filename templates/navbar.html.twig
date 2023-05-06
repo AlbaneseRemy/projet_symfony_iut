@@ -1,4 +1,9 @@
 {# barre de navigation  #}
+
+            {% set locale = app.request.attributes.get('_locale') %}
+            {% set route = app.request.attributes.get('_route') %}
+            {% set params = app.request.attributes.get('_route_params') %}
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="{{path('app_project')}}">
         <i class="fas fa-home"></i> {% trans %} template.navbar.home {% endtrans %}
@@ -19,18 +24,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{path('app_panier')}}">
-                    <i class="fas fa-shopping-cart"></i> {% trans %}  template.navbar.panier {% endtrans %} 
+                <a class="nav-link"
+                   href="{{ path('app_panier_index') }}">
+                    <i class="fas fa-shopping-cart"></i> {% trans %} template.navbar.panier {% endtrans %} ({{ render(controller('App\\Controller\\PanierController::nombreProduits')) }})
                 </a>
             </li>
 
         </ul>
 
         <ul class="navbar-nav mr-auto">
-
-            {% set locale = app.request.attributes.get('_locale') %}
-            {% set route = app.request.attributes.get('_route') %}
-            {% set params = app.request.attributes.get('_route_params') %}
 
             <li class="nav-item dropdown">
                 <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -5,8 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\BoutiqueService; 
-
+use App\Service\BoutiqueService;
+use App\Service\PanierService;
 
 class BoutiqueController extends AbstractController
 {
@@ -53,4 +53,4 @@ class BoutiqueController extends AbstractController
         'recherche' => $recherche,
     ]);
 }
-}
+}   

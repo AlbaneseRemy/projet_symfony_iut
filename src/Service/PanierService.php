@@ -2,7 +2,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Service\BoutiqueService;
 
 // Service pour manipuler le panier et le stocker en session
 class PanierService
@@ -15,35 +15,34 @@ class PanierService
     const PANIER_SESSION = 'panier'; // Le nom de la variable de session pour faire persister $this->panier
 
     // Constructeur du service
-    public function __construct(RequestStack $requestStack, ManagerRegistry $doctrine)
+    public function __construct(RequestStack $requestStack, BoutiqueService $boutiqueService)
     {
         // Récupération des services session et BoutiqueService
-        $this->boutique = $doctrine;
+        $this->boutique = $boutiqueService;
         $this->session = $requestStack->getSession();
         // Récupération du panier en session s'il existe, init. à vide sinon
-        $this->panier =  $this->session->get(self::PANIER_SESSION, []);
+        $this->panier = $this->session->get(self::PANIER_SESSION, []);
     }
 
     // Renvoie le montant total du panier
     public function getTotal() : float
     {
-      $total = 0;
+      $prixTotal = 0;
       foreach ($this->panier as $idProduit => $quantite) {
-        // $produit = $this->boutique->findProduitById($idProduit);
-        $produit = $this->boutique->getManager()->getRepository('App\Entity\Produit')->find($idProduit);
-        $total += $produit->getPrix() * $quantite;
+        $produit = $this->boutique->findProduitById($idProduit);
+        $prixTotal += $produit->prix * $quantite;
       }
-      return $total;
+      return $prixTotal;
     }
 
     // Renvoie le nombre de produits dans le panier
     public function getNombreProduits() : int
     {
-      $nombre = 0;
+      $totalProduit = 0;
       foreach ($this->panier as $idProduit => $quantite) {
-        $nombre += $quantite;
+        $totalProduit += $quantite;
       }
-      return $nombre;
+      return $totalProduit;
     }
 
     // Ajouter au panier le produit $idProduit en quantite $quantite 
@@ -66,10 +65,10 @@ class PanierService
           unset($this->panier[$idProduit]);
         }
       }
-      $this->session->set(self::PANIER_SESSION, $this->panier);
+      $this->session->set(self::PANIER_SESSION, $this->panier);    
     }
 
-    // Supprimer le produit $idProduit du panier
+    // Supprimer le produit $idProduit du panier  
     public function supprimerProduit(int $idProduit) : void
     {
       if (array_key_exists($idProduit, $this->panier)) {
@@ -91,8 +90,7 @@ class PanierService
     {
       $contenu = [];
       foreach ($this->panier as $idProduit => $quantite) {
-        // $produit = $this->boutique->findProduitById($idProduit);
-        $produit = $this->boutique->getManager()->getRepository('App\Entity\Produit')->find($idProduit);
+        $produit = $this->boutique->findProduitById($idProduit);
         $contenu[] = [ "produit" => $produit, "quantite" => $quantite ];
       }
       return $contenu;
