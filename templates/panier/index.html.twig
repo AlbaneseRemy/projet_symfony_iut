@@ -44,7 +44,7 @@
                                         <img src="{{asset(produit.produit.visuel)}}" class="cart-img-produit" alt="{{produit.produit.libelle}}">
                                     </td>
                                     <td> 
-                                        <a href="{{path('app_boutique_rayon' , {'idCategorie' : produit.produit.idCategorie})}}">
+                                        <a href="{{path('app_boutique_rayon' , {'idCategorie' : produit.produit.categorie.id})}}">
                                             <b>{{produit.produit.libelle}}</b>
                                         </a>
                                     </td>

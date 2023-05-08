@@ -5,7 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\BoutiqueService;
+use App\Repository\CategorieRepository;
+use App\Repository\ProduitRepository;
 use App\Service\PanierService;
 
 class BoutiqueController extends AbstractController
@@ -16,9 +17,9 @@ class BoutiqueController extends AbstractController
         requirements: ['_locale' => '%app.supported_locales%'],
         defaults: ['_locale' => 'fr']
     )]
-    public function index(BoutiqueService $boutique): Response
+    public function index(CategorieRepository $categorieRepository): Response
     {
-        $categories = $boutique->findAllCategories();
+        $categories = $categorieRepository->findAll();
         return $this->render('boutique/index.html.twig', [
             'categories' => $categories,
         ]);
@@ -30,10 +31,11 @@ class BoutiqueController extends AbstractController
         requirements: ['_locale' => '%app.supported_locales%'],
         defaults: ['_locale' => 'fr']
     )]
-    public function rayon(BoutiqueService $boutiqueService, int $idCategorie): Response
+    public function rayon(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, int $idCategorie): Response
     {
-        $categorie = $boutiqueService->findCategorieById($idCategorie);
-        $produits = $boutiqueService->findProduitsByCategorie($idCategorie);
+        $categorie = $categorieRepository->find($idCategorie)->getLibelle();
+        $produits = $produitRepository->findByCategorie($idCategorie);
+
         return $this->render('boutique/rayon.html.twig', [
             'categorie' => $categorie,
             'produits' => $produits,
@@ -45,9 +47,11 @@ class BoutiqueController extends AbstractController
     requirements:['_locale'=> '%app.supported_locales%', 'recherche' => ".+"], 
     defaults: ['_locale' => 'fr', 'recherche' => ""]
     )]
-    public function recherche(BoutiqueService $boutique, string $recherche): Response
+    public function recherche(ProduitRepository $produitRepository, string $recherche): Response
     {
-    $produits = $boutique->findProduitsByLibelleOrTexte($recherche);
+    $recherche = urldecode($recherche);
+    $produits = $produitRepository->findByLibelleOrTexte($recherche);
+
     return $this->render('boutique/chercher.html.twig', [
         'produits' => $produits,
         'recherche' => $recherche,

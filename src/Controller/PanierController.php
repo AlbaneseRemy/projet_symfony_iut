@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Service\BoutiqueService;
 use App\Service\PanierService;
+
+use App\Repository\ProduitRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,10 +31,10 @@ class PanierController extends AbstractController
 
 
     #[Route('/{_locale}/panier/ajouter/{idProduit}/{quantite}', name: 'app_panier_ajouter', requirements:['_locale'=> '%app.supported_locales%', 'idProduit' => '\d+', 'quantite' => '\d+'])]
-    public function ajouter(PanierService $panierService, BoutiqueService $boutiqueService, int $idProduit, int $quantite): Response
+    public function ajouter(PanierService $panierService, ProduitRepository $produitRepository, int $idProduit, int $quantite): Response
     {
 
-        $produit = $boutiqueService->findProduitById($idProduit);
+        $produit = $produitRepository->find($idProduit);
         if($produit != null){
             $panierService->ajouterProduit($idProduit, $quantite);
             return $this->redirectToRoute('app_panier_index');
@@ -56,9 +58,9 @@ class PanierController extends AbstractController
     }
 
     #[Route('/{_locale}/panier/supprimer/{idProduit}', name: 'app_panier_supprimer', requirements:['_locale'=> '%app.supported_locales%','idProduit' => '\d+'])]
-    public function supprimer(PanierService $panierService, BoutiqueService $boutiqueService, int $idProduit): Response
+    public function supprimer(PanierService $panierService, ProduitRepository $produitRepository, int $idProduit): Response
     {   
-        $produit = $boutiqueService->findProduitById($idProduit);
+        $produit = $produitRepository->find($idProduit);
         if($produit != null){
             $panierService->supprimerProduit($idProduit);
             return $this->redirectToRoute('app_panier_index');

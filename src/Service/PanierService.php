@@ -1,24 +1,25 @@
 <?php
 namespace App\Service;
 
+use App\Repository\ProduitRepository;
+
 use Symfony\Component\HttpFoundation\RequestStack;
-use App\Service\BoutiqueService;
 
 // Service pour manipuler le panier et le stocker en session
 class PanierService
 {
     ////////////////////////////////////////////////////////////////////////////
     private $session;   // Le service session
-    private $boutique;  // Le service boutique
     private $panier;    // Tableau associatif, la clé est un idProduit, la valeur associée est une quantité
                         //   donc $this->panier[$idProduit] = quantité du produit dont l'id = $idProduit
+    private $produit;
     const PANIER_SESSION = 'panier'; // Le nom de la variable de session pour faire persister $this->panier
 
     // Constructeur du service
-    public function __construct(RequestStack $requestStack, BoutiqueService $boutiqueService)
+    public function __construct(RequestStack $requestStack,  ProduitRepository $produitRepository)
     {
         // Récupération des services session et BoutiqueService
-        $this->boutique = $boutiqueService;
+        $this->produit = $produitRepository;
         $this->session = $requestStack->getSession();
         // Récupération du panier en session s'il existe, init. à vide sinon
         $this->panier = $this->session->get(self::PANIER_SESSION, []);
@@ -29,8 +30,8 @@ class PanierService
     {
       $prixTotal = 0;
       foreach ($this->panier as $idProduit => $quantite) {
-        $produit = $this->boutique->findProduitById($idProduit);
-        $prixTotal += $produit->prix * $quantite;
+        $produit = $this->produit->find($idProduit);
+        $prixTotal += $produit->getPrix() * $quantite;
       }
       return $prixTotal;
     }
@@ -90,7 +91,7 @@ class PanierService
     {
       $contenu = [];
       foreach ($this->panier as $idProduit => $quantite) {
-        $produit = $this->boutique->findProduitById($idProduit);
+        $produit = $this->produit->find($idProduit);
         $contenu[] = [ "produit" => $produit, "quantite" => $quantite ];
       }
       return $contenu;
