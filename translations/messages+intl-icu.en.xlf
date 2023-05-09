@@ -45,6 +45,22 @@
         <source>project.panier.title</source>
         <target>__project.panier.title</target>
       </trans-unit>
+      <trans-unit id="vjS2Y46" resname="template.navbar.usager">
+        <source>template.navbar.usager</source>
+        <target>User</target>
+      </trans-unit>
+      <trans-unit id="k91M2Em" resname="template.navbar.createusager">
+        <source>template.navbar.createusager</source>
+        <target>Create account</target>
+      </trans-unit>
+      <trans-unit id="JQOVGSW" resname="template.navbar.usageraccount">
+        <source>template.navbar.usageraccount</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="VlmB2ha" resname="template.navbar.usagerorders">
+        <source>template.navbar.usagerorders</source>
+        <target>My orders</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

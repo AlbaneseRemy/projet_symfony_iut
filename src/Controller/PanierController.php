@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Service\PanierService;
 
 use App\Repository\ProduitRepository;
-
+use App\Repository\UsagerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,6 +67,25 @@ class PanierController extends AbstractController
         }else{
             throw $this->createNotFoundException('Le produit n\'existe pas');
         }
+    }
+
+    #[Route('/{_locale}/panier/commander', name: 'app_panier_commander')]
+    public function commander(PanierService $panierService, UsagerRepository $usagerRepository): Response
+    {
+        $panierService->panierToCommande($usagerRepository->find(1));
+        return $this->redirectToRoute('app_panier_index');
+    }
+
+    //Create a route linked to commande.html.twig in usager and sends the commandes of the user
+    #[Route('/{_locale}/panier/commandes', name: 'app_panier_commandes')]
+    public function commandes(UsagerRepository $usagerRepository): Response
+    {
+        $usager = $usagerRepository->find(1);
+        return $this->render('usager/commande.html.twig', [
+            'controller_name' => 'PanierController',
+            'usager' => $usager,
+            'commandes' => $usager->getCommandes(),
+        ]);
     }
 
 

@@ -2,6 +2,11 @@
 namespace App\Service;
 
 use App\Repository\ProduitRepository;
+use App\Entity\Commande;
+use App\Entity\LigneCommande;
+use App\Entity\Usager;
+use Doctrine\Persistence\ObjectManager;
+
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -97,4 +102,29 @@ class PanierService
       return $contenu;
     }
 
-}
+    public function panierToCommande(Usager $usager) : ?Commande {
+      if (!empty($this->panier)) {
+
+        $commande = new Commande();
+        $commande->setUsager($usager);
+
+        foreach ($this->panier as $produitId => $quantite) {
+          $produit = $this->produit->find($produitId);
+          if ($produit) {
+            $ligneCommande = new LigneCommande();
+            $ligneCommande->setProduit($produit);
+            $ligneCommande->setQuantite($quantite);
+            $ligneCommande->setCommande($commande);
+            $commande->addLigneCommande($ligneCommande);
+
+          }
+      }
+      $usager->addCommande($commande);
+      return $commande;
+      } 
+
+      return null;
+    }
+
+
+} 

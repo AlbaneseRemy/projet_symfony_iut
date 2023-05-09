@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usager index{% endblock %}
+
+{% block body %}
+    <h1>Usager index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ usager.id }}</td>
+                <td>{{ usager.email }}</td>
+                <td>{{ usager.roles ? usager.roles|json_encode : '' }}</td>
+                <td>{{ usager.password }}</td>
+                <td>{{ usager.nom }}</td>
+                <td>{{ usager.prenom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
